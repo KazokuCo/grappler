@@ -35,6 +35,9 @@ func actionRun(cc *cli.Context) error {
 	}
 
 	router := httprouter.New()
+	router.GET("/health", func(rw http.ResponseWriter, req *http.Request, p httprouter.Params) {
+		rw.Write([]byte(`{"ok": true}`))
+	})
 	for _, hook := range config.Hooks {
 		path := fmt.Sprintf("/%s/%s", hook.Type, hook.Key)
 		router.POST(path, HandleInvokeHook(hook))
