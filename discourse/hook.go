@@ -111,7 +111,7 @@ func (hook *Hook) Handle(req *http.Request, body []byte) (*discordgo.WebhookPara
 		firstPost := envelope.Topic.PostStream.Posts[0]
 		embed.URL = fmt.Sprintf("%s/t/%s/%d", instance, envelope.Topic.Slug, envelope.Topic.ID)
 		embed.Title = envelope.Topic.Title
-		embed.Description = StripHTML(firstPost.Cooked)
+		embed.Description = Excerpt(StripHTML(firstPost.Cooked))
 		embed.Author = &discordgo.MessageEmbedAuthor{
 			Name:    firstPost.Username,
 			URL:     fmt.Sprintf("%s/users/%s", instance, firstPost.Username),
