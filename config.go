@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/bwmarrin/discordgo"
 	"github.com/kazokuco/grappler/discourse"
+	"github.com/kazokuco/grappler/unity/cloudbuild"
 	"github.com/pkg/errors"
 	"net/http"
 )
@@ -42,6 +43,12 @@ func (hc *Hook) UnmarshalJSON(data []byte) error {
 	switch hc.HookFields.Type {
 	case "discourse":
 		var impl discourse.Hook
+		if err := json.Unmarshal(data, &impl); err != nil {
+			return err
+		}
+		hc.Impl = Impl(&impl)
+	case "unity.cloudbuild":
+		var impl cloudbuild.Hook
 		if err := json.Unmarshal(data, &impl); err != nil {
 			return err
 		}
